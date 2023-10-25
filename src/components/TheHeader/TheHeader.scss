@@ -1,0 +1,13 @@
+.header {
+  margin: 0 auto;
+  display: flex;
+  max-width: 1024px;
+  justify-content: center;
+
+  &__navigation {
+    gap: 15px;
+    display: flex;
+    list-style-type: none;
+  }
+}
+
