@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import HomePage from '@/pages/HomePage/HomePage';
+import TheLayout from '@/components/TheLayout/TheLayout';
+import BookingPage from '@/pages/BookingPage/BookingPage';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TheLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="reserve" element={<BookingPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

@@ -1,6 +1,5 @@
 import './App.scss';
-import '@/components/TheHeader/TheHeader.js'
-import TheHeader from './components/TheHeader/TheHeader';
+import TheHeader from '@/components/TheHeader/TheHeader.js'
 
 function App() {
   return (
