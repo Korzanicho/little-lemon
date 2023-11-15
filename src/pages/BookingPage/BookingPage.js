@@ -1,10 +1,10 @@
 import '@/components/BookingForm/BookingForm';
 import BookingForm from '../../components/BookingForm/BookingForm';
 
-function BookingPage () {
+function BookingPage ({availableTimes, dispatch, onSubmit}) {
   return (
     <>
-      <BookingForm />
+      <BookingForm availableTimes={availableTimes} dispatch={dispatch} onSubmit={onSubmit} />
     </>
   )
 }
