@@ -1,0 +1,12 @@
+.the-rate {
+	flex-basis: 28%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	border-radius: 16px;
+	background-color: #FFFFFF;
+	padding: 0 20px 20px;
+
+	&__image {
+		border-radius: 50%;
+		margin-right: 15px;
+	}
+}

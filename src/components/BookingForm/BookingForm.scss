@@ -1,0 +1,17 @@
+.booking-form {
+	&__input {
+		width: 250px;
+		height: 43px;
+		padding: 0 15px;
+		margin-left: 15px;
+		border-radius: 16px;
+		border: 0 solid transparent;
+		background-color: #D9D9D9;
+		color: var(--color-primary);
+		box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+	}
+
+	&__img {
+		width: 50px;
+	}
+}

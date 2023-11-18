@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import cakeImg from '@/assets/images/cake.svg';
+import calendarImg from '@/assets/images/ph_calendar.svg';
+import clockImg from '@/assets/images/zondicons_time.svg';
+import peopleImg from '@/assets/images/people.svg';
+import './BookingForm.scss';
 
 function BookingForm({availableTimes, dispatch , onSubmit}) {
   const navigate = useNavigate();
@@ -147,41 +152,58 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
     }
   }
   return (
-    <>
-      <h2>Book Now:</h2>
-      <form style={{display: 'grid', maxWidth: '200px', gap: '20px'}} onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="res-date">Choose date</label>
-          <input type="date" id="res-date" onChange={handleChangeDate} required />
-          { validObject.date.errors.map((error) => <div className='error' key={error}>{error}</div>) }
-          <div className='errors'></div>
+    <div className='booking-form'>
+      <h2>Reserve a table</h2>
+      <form style={{display: 'grid', maxWidth: '360px', gap: '20px'}} onSubmit={handleSubmit}>
+        <div className='d-flex align-center booking-form__item'>
+          <label htmlFor="res-date" className='booking-form__label'>
+            <img src={calendarImg} alt='Choose date' className='booking-form__img'/>
+          </label>
+          <div>
+            <input type="date" id="res-date" onChange={handleChangeDate} required className='booking-form__input' />
+            { validObject.date.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+            <div className='errors'></div>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="res-time">Choose time</label>
-          <select id="res-time " onChange={handleChangeTime} required>
-            {availableTimes.map(time => <option key={time}>{time}</option>)}
-          </select>
-          { validObject.time.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+        <div className='d-flex align-center booking-form__item'>
+          <label htmlFor="res-time">
+            <img src={clockImg} alt='Choose time' className='booking-form__img'/>
+          </label>
+          <div>
+            <select id="res-time " onChange={handleChangeTime} required className='booking-form__input'>
+              {availableTimes.map(time => <option key={time}>{time}</option>)}
+            </select>
+            { validObject.time.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="guests">Number of guests</label>
-          <input type="number" placeholder="1" min="1" max="10" id="guests" onChange={handleChangeGuests} required />
-          { validObject.guests.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+        <div className='d-flex align-center booking-form__item'>
+          <label htmlFor="guests">
+            <img src={peopleImg} alt='Choose number of guests' className='booking-form__img'/>
+          </label>
+          <div>
+            <input type="number" placeholder="1" min="1" max="10" id="guests" onChange={handleChangeGuests} required className='booking-form__input' />
+            { validObject.guests.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="occasion">Occasion</label>
-          <select id="occasion" onChange={handleChangeOccasion} required>
-              <option>Birthday</option>
-              <option>Anniversary</option>
-          </select>
-          { validObject.occasion.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+        <div className='d-flex align-center booking-form__item'>
+          <label htmlFor="occasion">
+            <img src={cakeImg} alt='Choose occasion' className='booking-form__img'/>
+          </label>
+          <div>
+            <select id="occasion" onChange={handleChangeOccasion} required className='booking-form__input'>
+                <option disabled selected value> -- select an occasion -- </option>
+                <option>Birthday</option>
+                <option>Anniversary</option>
+            </select>
+            { validObject.occasion.errors.map((error) => <div className='error' key={error}>{error}</div>) }
+          </div>
         </div>
-        <input type="submit" value="Make Your reservation" required />
+        <button type="submit" required>Make Your reservation</button>
       </form>
-    </>
+    </div>
   );
 }
 

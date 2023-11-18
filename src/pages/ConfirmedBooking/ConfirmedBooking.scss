@@ -1,0 +1,18 @@
+.confirmed-booking {
+	width: 1024px;
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 60px 10px 100px;
+	text-align: center;
+
+	&__img {
+		width: auto;
+		margin-bottom: 30px auto;
+	}
+
+	&__description {
+		width: 300px;
+		margin: 40px auto;
+		font-weight: 500;
+	}
+}
