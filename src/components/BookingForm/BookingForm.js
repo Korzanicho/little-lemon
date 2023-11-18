@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import cakeImg from '@/assets/images/cake.svg';
 import calendarImg from '@/assets/images/ph_calendar.svg';
@@ -28,117 +28,158 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
     }
   })
 
-  // validation mechanism for each field
-
+  const rules = {
+    date: [
+      {
+        validator: (value) => value !== '',
+        message: 'Date is required'
+      },
+      {
+        validator: (value) => {
+          const today = new Date();
+          const date = new Date(value);
+          return date > today;
+        },
+        message: 'Date should be in the future'
+      }
+    ],
+    time: [
+      {
+        validator: (value) => value !== '',
+        message: 'Time is required'
+      }
+    ],
+    guests: [
+      {
+        validator: (value) => value > 0,
+        message: 'Min 1 guest'
+      },
+      {
+        validator: (value) => value <= 10,
+        message: 'Max 10 guests. For more please contact us'
+      }
+    ],
+    occasion: [
+      {
+        validator: (value) => value !== '',
+        message: 'Occasion is required'
+      }
+    ]
+  }
 
   const handleChangeDate = (e) => {
+    const errors = [];
+
+    rules.date.forEach(rule => {
+      if (!rule.validator(e.target.value)) {
+        errors.push(rule.message);
+      }
+    })
+
+    setValidObject({
+      ...validObject,
+      date: {
+        errors
+      }
+    })
+
+    if (errors.length) return;
+
     dispatch(e);
     setDate(e.target.value);
-
   }
+
   const handleChangeTime = (e) => {
+    const errors = [];
+
+    rules.time.forEach(rule => {
+      if (!rule.validator(e.target.value)) {
+        errors.push(rule.message);
+      }
+    })
+
+    setValidObject({
+      ...validObject,
+      time: {
+        errors
+      }
+    })
+
+    if (errors.length) return;
+
     setTime(e.target.value);
   }
   const handleChangeGuests = (e) => {
+    const errors = [];
+
+    rules.guests.forEach(rule => {
+      if (!rule.validator(e.target.value)) {
+        errors.push(rule.message);
+      }
+    })
+
+    setValidObject({
+      ...validObject,
+      guests: {
+        errors
+      }
+    })
+
+    if (errors.length) return;
+
     setGuests(e.target.value);
   }
   const handleChangeOccasion = (e) => {
+    const errors = [];
+
+    rules.occasion.forEach(rule => {
+      if (!rule.validator(e.target.value)) {
+        errors.push(rule.message);
+      }
+    })
+
+    setValidObject({
+      ...validObject,
+      occasion: {
+        errors
+      }
+    })
+
+    if (errors.length) return;
     setOccasion(e.target.value);
   }
+  const isFormValid = () => {
+    let isFormValid = true;
+    
+    Object.keys(validObject).forEach((key) => {
+      if (validObject[key].errors.length) {
+        isFormValid = false;
+      }
+    })
+
+    return isFormValid;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let isFormValid = true;
-
-    console.log(isFormValid)
-
-
-    // valid date
-    if (date === '') {
-      isFormValid = false;
-      setValidObject({
-        ...validObject,
-        date: {
-          errors: ['Date is required']
+    // valid all rules
+    Object.keys(rules).forEach((key) => {
+      rules[key].forEach((rule) => {
+        const errors = [];
+        if (!rule.validator(eval(key))) {
+          errors.push(rule.message);
         }
+        setValidObject({
+          ...validObject,
+          [key]: {
+            errors
+          }
+        })
       })
-    } else {
-      setValidObject({
-        ...validObject,
-        date: {
-          errors: []
-        }
-      })
-    }
+    })
 
-    console.log(isFormValid)
-    console.log(time, 'time')
-
-    // valid time
-    if (time === '') {
-      isFormValid = false;
-      setValidObject({
-        ...validObject,
-        time: {
-          errors: ['Time is required']
-        }
-      })
-    }
-    else {
-      setValidObject({
-        ...validObject,
-        time: {
-          errors: []
-        }
-      })
-    }
-
-    console.log(isFormValid)
-
-    console.log(guests < 1, 'guests')
-    // valid guests
-    if (guests < 1) {
-      isFormValid = false;
-      setValidObject({
-        ...validObject,
-        guests: {
-          errors: ['Min 1 guest']
-        }
-      })
-    } else {
-      setValidObject({
-        ...validObject,
-        time: {
-          errors: []
-        }
-      })
-    }
-
-    console.log(isFormValid)
-
-
-    // valid occasion
-    console.log(occasion)
-    if (occasion === '') {
-      isFormValid = false;
-      setValidObject({
-        ...validObject,
-        occasion: {
-          errors: ['Occasion is required']
-        }
-      })
-    } else {
-      setValidObject({
-        ...validObject,
-        occasion: {
-          errors: []
-        }
-      })
-    }
-
-    console.log(isFormValid)
-
-    if (!isFormValid) return;
+    if (!isFormValid()) return;
 
     const isValid = onSubmit({
       date,
@@ -151,6 +192,11 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
       navigate('/confirmed');
     }
   }
+
+  useEffect(() => {
+    isFormValid();
+  }, [date, time, guests, occasion, isFormValid])
+
   return (
     <div className='booking-form'>
       <h2>Reserve a table</h2>
@@ -162,7 +208,6 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
           <div>
             <input type="date" id="res-date" onChange={handleChangeDate} required className='booking-form__input' />
             { validObject.date.errors.map((error) => <div className='error' key={error}>{error}</div>) }
-            <div className='errors'></div>
           </div>
         </div>
 
@@ -183,7 +228,7 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
             <img src={peopleImg} alt='Choose number of guests' className='booking-form__img'/>
           </label>
           <div>
-            <input type="number" placeholder="1" min="1" max="10" id="guests" onChange={handleChangeGuests} required className='booking-form__input' />
+            <input type="number" placeholder="Guests quantity" min="1" max="10" id="guests" onChange={handleChangeGuests} required className='booking-form__input' />
             { validObject.guests.errors.map((error) => <div className='error' key={error}>{error}</div>) }
           </div>
         </div>
@@ -193,15 +238,15 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
             <img src={cakeImg} alt='Choose occasion' className='booking-form__img'/>
           </label>
           <div>
-            <select id="occasion" onChange={handleChangeOccasion} required className='booking-form__input'>
-                <option disabled selected value> -- select an occasion -- </option>
+            <select id="occasion" onChange={handleChangeOccasion} required className='booking-form__input' defaultValue=''>
+                <option disabled value=''> -- select an occasion -- </option>
                 <option>Birthday</option>
                 <option>Anniversary</option>
             </select>
             { validObject.occasion.errors.map((error) => <div className='error' key={error}>{error}</div>) }
           </div>
         </div>
-        <button type="submit" required>Make Your reservation</button>
+        <button type="submit" disabled={!isFormValid()}>Make Your reservation</button>
       </form>
     </div>
   );
