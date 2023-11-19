@@ -18,8 +18,8 @@ function TheHeader() {
       <a href='/' className='header__logo'>
         <img src={require('@/assets/images/Logo.svg').default} alt='logo' />
       </a>
-      <img src={iconHamburger} alt='Open menu' className='header__hamburger' onClick={openMenu}/>
-      {isMenuOpen && <button title='close' className='header__close-btn' onClick={closeMenu}>X</button>}
+      <img src={iconHamburger} alt='Open menu' className='header__hamburger' onClick={openMenu} aria-label="On Click"/>
+      {isMenuOpen && <button title='close' className='header__close-btn' onClick={closeMenu} aria-label="On Click">X</button>}
       <nav>
         {isMenuOpen && (
           <ul className='header__navigation'>

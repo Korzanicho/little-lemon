@@ -246,7 +246,7 @@ function BookingForm({availableTimes, dispatch , onSubmit}) {
             { validObject.occasion.errors.map((error) => <div className='error' key={error}>{error}</div>) }
           </div>
         </div>
-        <button type="submit" disabled={!isFormValid()}>Make Your reservation</button>
+        <button type="submit" disabled={!isFormValid()} aria-label="On Click">Make Your reservation</button>
       </form>
     </div>
   );
