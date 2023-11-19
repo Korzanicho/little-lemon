@@ -104,5 +104,9 @@
       position: relative;
     }
   }
-  
+  .cta-reserve-table .restaurant-info {
+    &__text {
+      max-width: 100%;
+    }
+  }
 }
