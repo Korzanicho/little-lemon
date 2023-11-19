@@ -1,9 +1,19 @@
 .header {
   margin: 0 auto;
   display: flex;
+  padding: 0 10px;
   max-width: 1024px;
   align-items: center;
   justify-content: space-between;
+  &__close-btn {
+    display: none;
+  }
+  &__hamburger {
+    display: none;
+    width: 30px;
+    margin: 0 auto;
+    margin-right: 1px;
+  }
 
   &__navigation {
     gap: 15px;
@@ -24,3 +34,33 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    &__hamburger {
+      display: block;
+    }
+    &__navigation {
+      // display: none;
+      inset: 0;
+      margin: 0;
+      z-index: 1;
+      width: 100%;
+      padding: 20px;
+      position: fixed;
+      flex-direction: column;
+      background-color: #EDEFEE;
+    }
+    &__close-btn {
+      top: 0;
+      z-index: 2;
+      right: 10px;
+      display: block;
+      min-width: 10px;
+      font-size: 1.5rem;
+      position: absolute;
+      width: fit-content;
+      background-color: transparent;
+    }
+  }
+}

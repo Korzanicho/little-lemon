@@ -29,7 +29,7 @@ function HomePage () {
       <section className='specials section'>
         <div className='d-flex justify-space-between'>
           <h2 className='section__title'>This weeks specials!</h2>
-          <button>Online Menu</button>
+          <button style={{marginBottom: '15px'}}>Online Menu</button>
           <div className="specials-wrapper">
             <TheSpecial
               title='Greek Salad'

@@ -10,3 +10,9 @@
 		margin-right: 15px;
 	}
 }
+
+@media screen and (max-width: 576px) {
+  .the-rate {
+    flex-basis: 100%;
+  }
+}
